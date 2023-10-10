@@ -1,24 +1,15 @@
-const PORT = process.env.PORT || 3001;
 const express = require('express');
-const fs = require('fs');
-const uuid = require('uuid');
-const app = express();
+const path = require('path');
+const htmlRoutes = express.Router();
 
-
-app.use(express.urlencoded({extended: false}));
-
-app.post('/api/notes', (req, res) => {
-    const newNote = req.body;
-    newNote.id = uuid.v4(); 
-    const data = JSON.parse(fs.readFileSync('db.json', 'utf8'));
-  
-    data.push(newNote);
-  
-    fs.writeFileSync('db.json', JSON.stringify(data), 'utf8');
-  
-    res.json(newNote);
-  });
-
-  app.listen(PORT, ()=>{
-    console.log(`Server running on https://localhost:${PORT}`);
+htmlRoutes.get('', (req,res) => {
+  const htmlPath = path.join(__dirname, '..', 'public', 'index.html');
+  res.sendFile(htmlPath);
 });
+// Define your HTML routes here
+htmlRoutes.get('/notes', (req, res) => {
+  const notesPath = path.join(__dirname, '..', 'public', 'notes.html');
+  res.sendFile(notesPath);
+});
+
+module.exports = htmlRoutes;
