@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 5500;
 const htmlRoutes = require('./routes/htmlRoute.js');
 const jsonRoutes = require('./routes/jsonRoute.js'); 
 
+// all the middleware used
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
 app.use(express.static("public"));
