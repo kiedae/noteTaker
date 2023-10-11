@@ -22,4 +22,13 @@ jsonRoutes.post('/api/notes', async (req, res) => {
     res.json(newNote);
 });
 
+jsonRoutes.delete('/api/notes/:id', async (req, res) => {
+  const data = await fs.readFile("db/db.json", "utf8");
+  const notes = JSON.parse(data);
+  const idToDelete = req.params.id;
+  const updatedNotes = notes.filter((note) => note.id !== idToDelete);
+  await fs.writeFile('db/db.json', JSON.stringify(updatedNotes, null, 2), 'utf8');
+  res.json({ message: 'Note Deleted'});
+});
+
 module.exports = jsonRoutes;
